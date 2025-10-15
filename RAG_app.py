@@ -64,7 +64,7 @@ def build_faiss_index(chunks):
     index = faiss.IndexFlatIP(embeddings.shape[1])
     index.add(embeddings)
 
-    st.success(f"✅ FAISS index built successfully with {len(chunks)} chunks.")
+    st.success(f" FAISS index built successfully with {len(chunks)} chunks.")
     return index
 
 def query_rag(query, index, chunks, top_k=3):
@@ -108,7 +108,7 @@ Answer:
 # STREAMLIT UI
 # ==============================
 st.markdown("""
-<h1 style='text-align:center; color:#0077b6;'>📘 Retrieval-Augmented Generation (RAG) Assistant</h1>
+<h1 style='text-align:center; color:#0077b6;'> Retrieval-Augmented Generation (RAG) Assistant</h1>
 <p style='text-align:center; font-size:16px; color:grey;'>
 Upload your PDF and ask questions about its content. Powered by Groq + Sentence Transformers.
 </p>
@@ -116,37 +116,37 @@ Upload your PDF and ask questions about its content. Powered by Groq + Sentence 
 
 st.markdown("---")
 
-uploaded_file = st.file_uploader("📂 Upload your PDF document", type=["pdf"])
+uploaded_file = st.file_uploader("Upload your PDF document", type=["pdf"])
 
 if uploaded_file:
-    with st.spinner("🔍 Extracting text from the PDF..."):
+    with st.spinner("Extracting text from the PDF..."):
         text = extract_text_from_pdf(uploaded_file)
 
     char_count = len(text)
     st.info(f"📄 Extracted **{char_count:,}** characters from the document.")
 
     if len(text.strip()) == 0:
-        st.error("⚠️ No readable text found. This PDF might be image-based. Please upload an OCR version.")
+        st.error("No readable text found. This PDF might be image-based. Please upload an OCR version.")
     else:
-        with st.spinner("🧠 Splitting text and building FAISS index..."):
+        with st.spinner("Splitting text and building FAISS index..."):
             chunks = chunk_text(text)
             index = build_faiss_index(chunks)
 
-        st.success("✅ PDF processed successfully!")
+        st.success("PDF processed successfully!")
 
         st.markdown("---")
         st.markdown("### 💬 Ask a question about your document")
         user_query = st.text_input("Type your question below:")
 
         if user_query:
-            with st.spinner("🤔 Thinking..."):
+            with st.spinner("Thinking..."):
                 answer = query_rag(user_query, index, chunks)
 
-            st.markdown("### 🧾 Answer")
+            st.markdown("### Answer")
             st.success(answer)
 
 else:
-    st.info("⬆️ Please upload a PDF to begin.")
+    st.info("Please upload a PDF to begin.")
 
 st.markdown("""
 ---
@@ -154,3 +154,4 @@ st.markdown("""
 Developed by <b>Slahitha S</b> | <i>Powered by Groq + FAISS + Streamlit</i>
 </div>
 """, unsafe_allow_html=True)
+
